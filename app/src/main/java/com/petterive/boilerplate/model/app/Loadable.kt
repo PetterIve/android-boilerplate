@@ -3,18 +3,22 @@ package com.petterive.model.app
 /**
  * Created by petteriversen on 25/11/2017.
  */
-abstract class Loadable<T> {
-    val model: T? = null
-    val isLoading: Boolean = false
-    val isLoadingSilently: Boolean = false
-    val error: ModelError? = null
+class Loadable<T>(
+        val model: T? = null,
+        val isLoading: Boolean = false,
+        val isLoadingSilently: Boolean = false,
+        val error: ServerError? = null
+) {
+    val state: State
 
-    fun getState(): State {
-        if(isLoading) return State.LOADING
-        else if(isLoadingSilently) return State.LOADING_SILENTLY
-        else if(error != null) return State.ERROR
-        else if(model != null) return State.MODEL_SET
-        else return State.NOT_INITIALIZED
+    init {
+        state = when{
+            model != null -> State.MODEL_SET
+            isLoading -> State.LOADING
+            isLoadingSilently -> State.LOADING_SILENTLY
+            error != null -> State.ERROR
+            else -> State.NOT_INITIALIZED
+        }
     }
 
     enum class State {

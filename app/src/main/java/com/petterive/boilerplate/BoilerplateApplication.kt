@@ -1,25 +1,26 @@
 package com.petterive.boilerplate
 
 import android.app.Application
-import com.petterive.boilerplate.injection.component.DaggerStoreComponent
-import com.petterive.boilerplate.injection.component.StoreComponent
-import com.petterive.boilerplate.injection.modules.StoreModule
+import com.anadeainc.rxbus.BusProvider
+import com.petterive.boilerplate.injection.component.DaggerFluxComponent
+import com.petterive.boilerplate.injection.component.FluxComponent
+import com.petterive.boilerplate.injection.modules.flux.LoginModule
 
 /**
  * Created by petteriversen on 24/11/2017.
  */
-
 class BoilerplateApplication : Application() {
 
     companion object {
-        lateinit var storeComponent: StoreComponent
+        lateinit var fluxComponent: FluxComponent
     }
 
 
     override fun onCreate() {
         super.onCreate()
-        storeComponent = DaggerStoreComponent.builder()
-                .storeModule(StoreModule())
+        fluxComponent = DaggerFluxComponent.builder()
+                .loginModule(LoginModule(BusProvider.getInstance()))
                 .build()
+
     }
 }

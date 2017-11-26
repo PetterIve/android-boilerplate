@@ -42,4 +42,8 @@ dependencies {
     //RxJava/Android
     compile "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
     compile "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+
+    //RxBus
+    compile 'com.github.anadea:rxbus:1.0.1'
+
 }
