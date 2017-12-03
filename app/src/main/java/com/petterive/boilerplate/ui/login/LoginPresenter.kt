@@ -22,7 +22,6 @@ class LoginPresenter(val loginView: LoginView) : BasePresenter() {
 
     init {
         BoilerplateApplication.fluxComponent.inject(this)
-        BusProvider.getInstance().register(this)
     }
 
     @Subscribe

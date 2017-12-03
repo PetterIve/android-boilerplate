@@ -19,15 +19,15 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity(), LoginView {
 
-    private lateinit var loginPresenter: LoginPresenter
+    override lateinit var presenter: LoginPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        loginPresenter = LoginPresenter(this)
+        presenter = LoginPresenter(this)
 
-        bLogin.setOnClickListener { loginPresenter.login(etPassword.text.toString(), etUserName.text.toString()) }
+        bLogin.setOnClickListener { presenter.login(etPassword.text.toString(), etUserName.text.toString()) }
     }
 
     override fun showLoggingIn(): LoginView.LoginViewState {
@@ -50,10 +50,6 @@ class LoginActivity : BaseActivity(), LoginView {
             else -> showFeedback("Something went wrong")
         }
         return LoginView.LoginViewState.SHOWING_LOGIN_ERROR
-    }
-
-    private fun showFeedback(s: String) {
-        Toast.makeText(this, s, Toast.LENGTH_LONG).show()
     }
 
     override fun onLoginSuccess(model: User): LoginView.LoginViewState {

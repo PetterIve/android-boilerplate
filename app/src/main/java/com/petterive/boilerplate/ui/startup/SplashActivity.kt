@@ -13,6 +13,7 @@ class SplashActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         //do nothing, simply not show a white screen while app is starting up
         startActivity(EnsureStateActivity.getStartIntent(this))
+        finish()
     }
 
 }
