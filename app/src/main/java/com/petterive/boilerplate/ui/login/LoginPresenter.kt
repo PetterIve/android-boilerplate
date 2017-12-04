@@ -1,13 +1,13 @@
 package com.petterive.boilerplate.ui.login
 
-import com.anadeainc.rxbus.BusProvider
-import com.anadeainc.rxbus.Subscribe
 import com.petterive.boilerplate.BoilerplateApplication
 import com.petterive.boilerplate.flux.login.LoginActions
 import com.petterive.boilerplate.flux.login.LoginStore
 import com.petterive.boilerplate.ui.base.BasePresenter
+import com.petterive.model.User
 import com.petterive.model.app.Loadable
-import com.petterive.model.app.ServerError
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
@@ -17,27 +17,28 @@ import javax.inject.Inject
 class LoginPresenter(val loginView: LoginView) : BasePresenter() {
 
     @Inject lateinit var loginActions: LoginActions
+    @Inject lateinit var loginStore: LoginStore
 
     private var viewState = LoginView.LoginViewState.AWAITING_USER_INPUT
 
     init {
         BoilerplateApplication.fluxComponent.inject(this)
+        loginStore.userSubject
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { userModel -> onLoginModelChanged(userModel) }
     }
 
-    @Subscribe
-    fun onLoginStateChanged(event: LoginStore.LoginStateChangedEvent) {
-        when(event.loadable.state) {
-            Loadable.State.MODEL_SET -> loginView.onLoginSuccess(event.loadable.model!!)
+    private fun onLoginModelChanged(userModel: Loadable<User>) {
+        when(userModel.state) {
             Loadable.State.LOADING -> loginView.showLoggingIn()
+            Loadable.State.MODEL_SET -> loginView.onLoginSuccess(userModel.model!!)
+            Loadable.State.ERROR -> loginView.showLoginError(userModel.error!!)
         }
     }
 
     fun login(username: String, password: String) {
-        if(username.toLowerCase().equals("petterive") && password.toLowerCase().equals("petterive")) {
-            loginActions.doLogin(username, password)
-        } else {
-            viewState = loginView.showLoginError(ServerError.BAD_REQUEST)
-        }
+        loginActions.doLogin(username, password)
     }
 
 

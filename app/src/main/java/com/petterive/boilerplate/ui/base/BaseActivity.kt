@@ -11,13 +11,12 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
 
     abstract val presenter: BasePresenter
 
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.detachFromView()
-    }
-
     fun showFeedback(s: String) {
         Toast.makeText(this, s, Toast.LENGTH_LONG).show()
+    }
+
+    fun showFeedback(resId: Int) {
+        Toast.makeText(this, resId, Toast.LENGTH_LONG).show()
     }
 
 }

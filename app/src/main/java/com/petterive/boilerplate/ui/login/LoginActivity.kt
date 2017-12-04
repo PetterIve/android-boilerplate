@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import com.petterive.boilerplate.R
 import com.petterive.boilerplate.ui.base.BaseActivity
 import com.petterive.model.User
@@ -45,6 +44,7 @@ class LoginActivity : BaseActivity(), LoginView {
     }
 
     override fun showLoginError(serverError: ServerError): LoginView.LoginViewState {
+        stopLoginLoading()
         when(serverError) {
             ServerError.BAD_REQUEST -> showFeedback("Wrong username or password")
             else -> showFeedback("Something went wrong")

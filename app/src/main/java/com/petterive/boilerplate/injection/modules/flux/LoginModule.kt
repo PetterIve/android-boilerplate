@@ -1,6 +1,5 @@
 package com.petterive.boilerplate.injection.modules.flux
 
-import com.anadeainc.rxbus.Bus
 import com.petterive.boilerplate.flux.login.LoginActions
 import com.petterive.boilerplate.flux.login.LoginStore
 import dagger.Module
@@ -11,17 +10,17 @@ import javax.inject.Singleton
  * Created by petteriversen on 26/11/2017.
  */
 @Module
-class LoginModule(val bus: Bus) {
+class LoginModule {
     @Provides
     @Singleton
-    fun providesLoginStore(): LoginStore {
-        return LoginStore(bus)
+    fun provideLoginStore(): LoginStore {
+        return LoginStore()
     }
 
     @Provides
     @Singleton
     fun provideLoginActions(): LoginActions {
-        return LoginActions(providesLoginStore())
+        return LoginActions()
     }
 
 }

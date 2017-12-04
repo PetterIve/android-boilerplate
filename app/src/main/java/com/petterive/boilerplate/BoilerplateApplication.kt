@@ -1,7 +1,6 @@
 package com.petterive.boilerplate
 
 import android.app.Application
-import com.anadeainc.rxbus.BusProvider
 import com.petterive.boilerplate.injection.component.DaggerFluxComponent
 import com.petterive.boilerplate.injection.component.FluxComponent
 import com.petterive.boilerplate.injection.modules.flux.LoginModule
@@ -19,7 +18,7 @@ class BoilerplateApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         fluxComponent = DaggerFluxComponent.builder()
-                .loginModule(LoginModule(BusProvider.getInstance()))
+                .loginModule(LoginModule())
                 .build()
 
     }
