@@ -10,18 +10,10 @@ import com.petterive.model.app.ServerError
 
 interface LoginView: BaseView {
 
-    fun onLoginSuccess(model: User): LoginViewState
-    fun showLoggingIn(): LoginViewState
-    fun showAwaitingUserInput(): LoginViewState
-    fun showForgotEmail(): LoginViewState
-    fun showLoginError(serverError: ServerError): LoginViewState
-
-    enum class LoginViewState {
-        AWAITING_USER_INPUT,
-        LOGGING_IN,
-        REGISTERING,
-        SHOWING_LOGIN_ERROR,
-        LOGIN_SUCCESS
-    }
+    fun onLoginSuccess(model: User)
+    fun showLoggingIn()
+    fun showAwaitingUserInput()
+    fun showForgotEmail()
+    fun showLoginError(serverError: ServerError)
 
 }

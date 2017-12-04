@@ -29,33 +29,28 @@ class LoginActivity : BaseActivity(), LoginView {
         bLogin.setOnClickListener { presenter.login(etPassword.text.toString(), etUserName.text.toString()) }
     }
 
-    override fun showLoggingIn(): LoginView.LoginViewState {
+    override fun showLoggingIn() {
         startLoginLoading()
-        return LoginView.LoginViewState.LOGGING_IN
     }
 
-    override fun showAwaitingUserInput(): LoginView.LoginViewState {
+    override fun showAwaitingUserInput() {
         stopLoginLoading()
-        return LoginView.LoginViewState.AWAITING_USER_INPUT
     }
 
-    override fun showForgotEmail(): LoginView.LoginViewState {
-        return LoginView.LoginViewState.REGISTERING
+    override fun showForgotEmail() {
     }
 
-    override fun showLoginError(serverError: ServerError): LoginView.LoginViewState {
+    override fun showLoginError(serverError: ServerError) {
         stopLoginLoading()
         when(serverError) {
             ServerError.BAD_REQUEST -> showFeedback("Wrong username or password")
             else -> showFeedback("Something went wrong")
         }
-        return LoginView.LoginViewState.SHOWING_LOGIN_ERROR
     }
 
-    override fun onLoginSuccess(model: User): LoginView.LoginViewState {
+    override fun onLoginSuccess(model: User) {
         stopLoginLoading()
         showFeedback("Login successful")
-        return LoginView.LoginViewState.LOGIN_SUCCESS
     }
 
     private fun startLoginLoading() {

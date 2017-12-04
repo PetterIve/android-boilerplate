@@ -2,8 +2,10 @@ package com.petterive.boilerplate.flux.login
 
 import android.os.Handler
 import com.petterive.boilerplate.BoilerplateApplication
+import com.petterive.boilerplate.model.app.InitialError
+import com.petterive.boilerplate.model.app.InitialLoad
+import com.petterive.boilerplate.model.app.ModelSet
 import com.petterive.model.User
-import com.petterive.model.app.Loadable
 import com.petterive.model.app.ServerError
 import javax.inject.Inject
 
@@ -20,12 +22,12 @@ class LoginActions {
     }
 
     fun doLogin(username: String, password: String) {
-        loginStore.updateLoginState(Loadable(isLoading=true))
+        loginStore.updateLoginState(InitialLoad())
         Handler().postDelayed({
             if(username.toLowerCase().equals("petterive") && password.toLowerCase().equals("petterive")) {
-                loginStore.updateLoginState(Loadable(model=User(username, password)))
+                loginStore.updateLoginState(ModelSet(model=User(username, password)))
             } else {
-                loginStore.updateLoginState(Loadable(error= ServerError.BAD_REQUEST))
+                loginStore.updateLoginState(InitialError(error= ServerError.BAD_REQUEST))
             }
         }, 2000)
     }

@@ -1,31 +1,19 @@
-package com.petterive.model.app
+package com.petterive.boilerplate.model.app
+
+import com.petterive.model.app.ServerError
 
 /**
- * Created by petteriversen on 25/11/2017.
+ * Created by petteriversen on 05/12/2017.
  */
-class Loadable<T>(
-        val model: T? = null,
-        val isLoading: Boolean = false,
-        val isLoadingSilently: Boolean = false,
-        val error: ServerError? = null
-) {
-    val state: State
+abstract sealed class Loadable<T>
 
-    init {
-        state = when{
-            model != null -> State.MODEL_SET
-            isLoading -> State.LOADING
-            isLoadingSilently -> State.LOADING_SILENTLY
-            error != null -> State.ERROR
-            else -> State.NOT_INITIALIZED
-        }
-    }
+/**
+ * We don't care for the types of these
+ */
+class NotInitialized<T>: Loadable<T>()
+class InitialLoad<T>: Loadable<T>()
+data class InitialError<T>(val error: ServerError): Loadable<T>()
 
-    enum class State {
-        LOADING,
-        LOADING_SILENTLY,
-        ERROR,
-        MODEL_SET,
-        NOT_INITIALIZED
-    }
-}
+data class ModelSet<T>(val model: T): Loadable<T>()
+data class Updating<T>(val model: T): Loadable<T>()
+data class UpdateError<T>(val model: T, val error: ServerError): Loadable<T>()
