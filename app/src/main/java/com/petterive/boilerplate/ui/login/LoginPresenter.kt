@@ -29,9 +29,9 @@ class LoginPresenter(val loginView: LoginView) : BasePresenter() {
 
     private fun onLoginModelChanged(userLoadable: Loadable<User>) {
         when(userLoadable) {
-            is InitialLoad -> loginView.showLoggingIn()
+            is Updating -> loginView.showLoggingIn()
             is ModelSet -> loginView.onLoginSuccess(userLoadable.model)
-            is InitialError -> loginView.showLoginError(userLoadable.error)
+            is UpdateError -> loginView.showLoginError(userLoadable.error)
         }
     }
 
