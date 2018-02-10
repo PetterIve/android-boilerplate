@@ -1,5 +1,4 @@
 # android-boilerplate
-[![CircleCI](https://circleci.com/gh/PetterIve/android-boilerplate/tree/master.svg?style=svg)](https://circleci.com/gh/PetterIve/android-boilerplate/tree/master)
 ## Todo
 - [ ] Unit tests
 - [ ] RxViews
