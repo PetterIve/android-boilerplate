@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import com.petterive.boilerplate.BoilerplateApplication
 import com.petterive.boilerplate.R
 import com.petterive.boilerplate.ui.base.BaseActivity
 import com.petterive.model.User
@@ -24,8 +25,7 @@ class LoginActivity : BaseActivity(), LoginView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        presenter = LoginPresenter(this)
-
+        BoilerplateApplication.fluxComponent.inject(this)
         bLogin.setOnClickListener { presenter.login(etPassword.text.toString(), etUserName.text.toString()) }
     }
 
@@ -43,14 +43,14 @@ class LoginActivity : BaseActivity(), LoginView {
     override fun showLoginError(serverError: ServerError) {
         stopLoginLoading()
         when(serverError) {
-            ServerError.BAD_REQUEST -> showFeedback("Wrong username or password")
-            else -> showFeedback("Something went wrong")
+            ServerError.BAD_REQUEST -> showFeedback("Error","Wrong username or password")
+            else -> showFeedback("Error","Something went wrong")
         }
     }
 
     override fun onLoginSuccess(model: User) {
         stopLoginLoading()
-        showFeedback("Login successful")
+        showFeedback("Success!","Login successful")
     }
 
     private fun startLoginLoading() {

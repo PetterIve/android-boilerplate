@@ -1,9 +1,12 @@
 package com.petterive.boilerplate.ui.login
 
-import com.petterive.boilerplate.BoilerplateApplication
-import com.petterive.boilerplate.flux.login.LoginActions
-import com.petterive.boilerplate.flux.login.LoginStore
-import com.petterive.boilerplate.model.app.*
+import com.petterive.boilerplate.data.LoginMutations
+import com.petterive.boilerplate.data.LoginState
+import com.petterive.boilerplate.data.flux.login.LoginStore
+import com.petterive.boilerplate.model.app.Loadable
+import com.petterive.boilerplate.model.app.ModelSet
+import com.petterive.boilerplate.model.app.UpdateError
+import com.petterive.boilerplate.model.app.Updating
 import com.petterive.boilerplate.ui.base.BasePresenter
 import com.petterive.model.User
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -14,17 +17,24 @@ import javax.inject.Inject
  * Created by petteriversen on 24/11/2017.
  */
 
-class LoginPresenter(val loginView: LoginView) : BasePresenter() {
+class LoginPresenter @Inject constructor(
+        var loginMutations: LoginMutations,
+        var loginState: LoginState
+) : BasePresenter()
+{
 
-    @Inject lateinit var loginActions: LoginActions
-    @Inject lateinit var loginStore: LoginStore
+    private lateinit var loginView: LoginView
 
     init {
-        BoilerplateApplication.fluxComponent.inject(this)
-        loginStore.userSubject
+        loginState.userSubject
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { userLoadable -> onLoginModelChanged(userLoadable) }
+    }
+
+
+    fun attachToView(loginView: LoginView) {
+        this.loginView = loginView
     }
 
     private fun onLoginModelChanged(userLoadable: Loadable<User>) {
@@ -36,7 +46,7 @@ class LoginPresenter(val loginView: LoginView) : BasePresenter() {
     }
 
     fun login(username: String, password: String) {
-        loginActions.doLogin(username, password)
+        loginMutations.doLogin(username, password)
     }
 
 

@@ -1,7 +1,8 @@
-package com.petterive.boilerplate.flux.login
+package com.petterive.boilerplate.data.flux.login
 
 import android.os.Handler
 import com.petterive.boilerplate.BoilerplateApplication
+import com.petterive.boilerplate.data.LoginMutations
 import com.petterive.boilerplate.model.app.*
 import com.petterive.model.User
 import com.petterive.model.app.ServerError
@@ -11,15 +12,9 @@ import javax.inject.Inject
  * Created by petteriversen on 26/11/2017.
  */
 
-class LoginActions {
-    @Inject
-    lateinit var loginStore: LoginStore
+class LoginActions @Inject constructor(private val loginStore: LoginStore): LoginMutations {
 
-    init {
-        BoilerplateApplication.fluxComponent.inject(this)
-    }
-
-    fun doLogin(username: String, password: String) {
+    override fun doLogin(username: String, password: String) {
         val user = User(username, password)
         loginStore.updateLoginState(Updating(user))
         Handler().postDelayed({

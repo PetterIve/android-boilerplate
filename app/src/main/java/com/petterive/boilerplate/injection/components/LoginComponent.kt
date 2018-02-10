@@ -1,7 +1,8 @@
-package com.petterive.boilerplate.injection.component
+package com.petterive.boilerplate.injection.components
 
-import com.petterive.boilerplate.flux.login.LoginActions
-import com.petterive.boilerplate.injection.modules.flux.LoginModule
+import com.petterive.boilerplate.data.flux.login.LoginActions
+import com.petterive.boilerplate.injection.modules.LoginModule
+import com.petterive.boilerplate.ui.login.LoginActivity
 import com.petterive.boilerplate.ui.login.LoginPresenter
 import dagger.Component
 import javax.inject.Singleton
@@ -12,7 +13,8 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = arrayOf(LoginModule::class))
-interface FluxComponent {
+interface LoginComponent {
     fun inject(loginPresenter: LoginPresenter)
     fun inject(loginActions: LoginActions)
+    fun inject(loginActivity: LoginActivity)
 }

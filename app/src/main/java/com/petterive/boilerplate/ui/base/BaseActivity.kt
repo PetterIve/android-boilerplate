@@ -11,12 +11,12 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
 
     abstract val presenter: BasePresenter
 
-    fun showFeedback(s: String) {
-        Toast.makeText(this, s, Toast.LENGTH_LONG).show()
+    fun showFeedback(title: String, text: String) {
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
 
-    fun showFeedback(resId: Int) {
-        Toast.makeText(this, resId, Toast.LENGTH_LONG).show()
+    fun showFeedback(titleResId: Int, textResId: Int) {
+        Toast.makeText(this, textResId, Toast.LENGTH_LONG).show()
     }
 
 }
